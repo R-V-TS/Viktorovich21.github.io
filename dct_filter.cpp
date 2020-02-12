@@ -12,7 +12,7 @@ int im_width = 0, im_height = 0;
 extern "C" {
     EMSCRIPTEN_KEEPALIVE
     float getModuleVersion(){
-        return 2.5f;
+        return 3.f;
     }
     
     EMSCRIPTEN_KEEPALIVE
