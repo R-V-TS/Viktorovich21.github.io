@@ -96,7 +96,7 @@ extern "C"{
         return PSNR_res;
     }
 
-    float maskeff(float* image, float* DCT_im, int window_size)
+    float maskeff(uint8_t* image, float* DCT_im, int window_size)
     {
         float res = 0;
         float pop;
@@ -128,8 +128,8 @@ extern "C"{
     float* PSNRHVSM(){
         float* PSNR_HVS_M = new float[2];
         int window_size = 8;
-        float* blockP = new float[window_size*window_size];
-        float* blockQ = new float[window_size*window_size];
+        uint8_t* blockP = new uint8_t[window_size*window_size];
+        uint8_t* blockQ = new uint8_t[window_size*window_size];
         float* DCT_blockP;
         float* DCT_blockQ;
         float MaskP, MaskQ;
@@ -140,8 +140,8 @@ extern "C"{
             for(int j = 0; j < width; j+= window_size){
                 getImageBlockUInt(P_image, i, j, width, window_size, blockP);
                 getImageBlockUInt(Q_image, i, j, width, window_size, blockQ);
-                DCT_blockP = DCT_image(reinterpret_cast<uint8_t *>(blockP), window_size, window_size, window_size);
-                DCT_blockQ = DCT_image(reinterpret_cast<uint8_t *>(blockQ), window_size, window_size, window_size);
+                DCT_blockP = DCT_image(blockP, window_size, window_size, window_size);
+                DCT_blockQ = DCT_image(blockQ, window_size, window_size, window_size);
                 MaskP = maskeff(blockP, DCT_blockP, window_size);
                 MaskQ = maskeff(blockQ, DCT_blockQ, window_size);
                 if(MaskQ > MaskP) MaskP = MaskQ;
