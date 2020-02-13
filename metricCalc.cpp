@@ -69,6 +69,23 @@ extern "C"{
         return res/(length-1);
     }
 
+    float meanI(uint8_t* im_block, int length){
+        float res = 0;
+        for(int i = 0; i < length; i++)
+            res += im_block[i];
+        return res/length;
+    }
+
+    float varianceI(uint8_t* im_block, int length)
+    {
+        float res = 0;
+        float mean_im = meanI(im_block, length);
+        for(int i = 0; i < length; i++){
+            res += pow(im_block[i] = mean_im, 2);
+        }
+        return res/(length-1);
+    }
+
     float MSE(){
         float MSE_res;
         float MSE_local = 0;
@@ -82,7 +99,7 @@ extern "C"{
         return MSE_res;
     }
 
-
+    EMSCRIPTEN_KEEPALIVE
     float PSNR(){
         float PSNR_res;
         float MSE_im = MSE();
@@ -107,16 +124,16 @@ extern "C"{
                     res += ((DCT_im[(i*window_size)+j]*DCT_im[(i*window_size)+j]) * MaskCof[i][j]);
             }
 
-        pop = variance(image, window_size*window_size) * window_size*window_size;
+        pop = varianceI(image, window_size*window_size) * window_size*window_size;
         if(pop != 0){
             float* block;
-            getImageBlockF(image, 0, 0, window_size, 4, block);
+            getImageBlockUInt(image, 0, 0, window_size, 4, block);
             float pop_1 = variance(block, 4*4) * 16;
-            getImageBlockF(image, 0, 4, window_size, 4, block);
+            getImageBlockUInt(image, 0, 4, window_size, 4, block);
             pop_1 += variance(block, 4*4) * 16;
-            getImageBlockF(image, 4,4,window_size,4, block);
+            getImageBlockUInt(image, 4,4,window_size,4, block);
             pop_1 += variance(block, 4*4) * 16;
-            getImageBlockF(image, 4,0,window_size,4, block);
+            getImageBlockUInt(image, 4,0,window_size,4, block);
             pop_1 += variance(block, 4*4) * 16;
             pop = pop_1/pop;
         }
@@ -138,8 +155,8 @@ extern "C"{
 
         for(int i = 0; i < height; i+= window_size){
             for(int j = 0; j < width; j+= window_size){
-                getImageBlockUInt(P_image, i, j, width, window_size, blockP);
-                getImageBlockUInt(Q_image, i, j, width, window_size, blockQ);
+                getImageBlockUInt2UInt(P_image, i, j, width, window_size, blockP);
+                getImageBlockUInt2UInt(Q_image, i, j, width, window_size, blockQ);
                 DCT_blockP = DCT_image(blockP, window_size, window_size, window_size);
                 DCT_blockQ = DCT_image(blockQ, window_size, window_size, window_size);
                 MaskP = maskeff(blockP, DCT_blockP, window_size);
