@@ -64,7 +64,7 @@ extern "C"{
         float res = 0;
         float mean_im = mean(im_block, length);
         for(int i = 0; i < length; i++){
-            res += pow(im_block[i] = mean_im, 2);
+            res += pow(im_block[i] - mean_im, 2);
         }
         return res/(length-1);
     }
@@ -81,7 +81,7 @@ extern "C"{
         float res = 0;
         float mean_im = meanI(im_block, length);
         for(int i = 0; i < length; i++){
-            res += pow(im_block[i] = mean_im, 2);
+            res += pow(im_block[i] - mean_im, 2);
         }
         return res/(length-1);
     }
