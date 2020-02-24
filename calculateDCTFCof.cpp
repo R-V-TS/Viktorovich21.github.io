@@ -43,6 +43,7 @@ extern "C"{
         return (uint8_t*)malloc(length*sizeof(uint8_t));
     }
 
+    EMSCRIPTEN_KEEPALIVE
     float* getDCTOffset(int length){
         return (float*)malloc(length*sizeof(float));
     }
