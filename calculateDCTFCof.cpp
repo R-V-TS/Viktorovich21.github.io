@@ -43,8 +43,12 @@ extern "C"{
         return (uint8_t*)malloc(length*sizeof(uint8_t));
     }
 
+    float* getDCTOffset(int length){
+        return (float*)malloc(length*sizeof(float));
+    }
+
     EMSCRIPTEN_KEEPALIVE
-    float* DCT_image(uint8_t* image_, int width_, int height_, int wind_size_)
+    void DCT_image(uint8_t* image_, int width_, int height_, int wind_size_, float* im_temp)
     {
         float *DCT_creator_mtx;
         float *DCT_creator_mtx_T;
@@ -72,7 +76,6 @@ extern "C"{
         }
         float *block = new float[wind_size_*wind_size_];
         float *temp = new float[wind_size_*wind_size_];
-        float *im_temp = new float[width_ * height_];
 
         for (int i = 0; i < height_; i += wind_size_) {
             for (int j = 0; j < width_; j += wind_size_) {
@@ -86,7 +89,6 @@ extern "C"{
                     }
             }
         }
-        return im_temp;
     }
 
     EMSCRIPTEN_KEEPALIVE
@@ -112,7 +114,8 @@ extern "C"{
 
         float* EST = new float[(image_width/8)*(image_height/8)*4];
         float* block = new float[window_size*window_size];
-        float* DCT_ARRAY = DCT_image(buffer, image_width, image_height, window_size);
+        float* DCT_ARRAY = new float[image_height*image_width]; 
+        DCT_image(buffer, image_width, image_height, window_size, DCT_ARRAY);
         int z = 0;
 
         double slices_sum[4] = {0,0,0,0};

@@ -142,7 +142,7 @@ extern "C"{
         return res;
     }
 
-    EMSCRIPTEN_KEEPALIVE
+    /*EMSCRIPTEN_KEEPALIVE
     float PSNRHVSM(){
         float PSNR_HVS_M = 0.f;
         int window_size = 8;
@@ -192,5 +192,5 @@ extern "C"{
         delete[] blockP;
         delete[] blockQ;
         return PSNR_HVS_M;
-    }
+    }*/
 }
