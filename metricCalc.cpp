@@ -125,8 +125,8 @@ extern "C"{
     }
 
     EMSCRIPTEN_KEEPALIVE
-    float* PSNRHVSM(){
-        float* PSNR_HVS_M = new float[2];
+    float PSNRHVSM(){
+        float PSNR_HVS_M = 0.f;
         int window_size = 8;
         uint8_t* blockP = new uint8_t[window_size*window_size];
         uint8_t* blockQ = new uint8_t[window_size*window_size];
@@ -151,13 +151,12 @@ extern "C"{
                     for(int l = 0; l < window_size; l++)
                     {
                         u = abs(DCT_blockP[(k*window_size)+l] - DCT_blockQ[(k*window_size)+l]);
-                        PSNR_HVS_M[0] += pow(u * CSFCof[k][l], 2);   // PSNR-HVS calculate
                         if(k != 0 || l != 0)
                         {
                             if(u < MaskP/MaskCof[k][l]) u = 0;
                             else u -= MaskP/MaskCof[k][l];
                         }
-                        PSNR_HVS_M[1] += pow(u*CSFCof[k][l], 2);   // PSNR-HVS-M calculate
+                        PSNR_HVS_M += pow(u*CSFCof[k][l], 2);   // PSNR-HVS-M calculate
                         NUM++;
                     }
                 }
@@ -166,13 +165,10 @@ extern "C"{
 
         if(NUM != 0)
         {
-            PSNR_HVS_M[0] /= NUM;
-            PSNR_HVS_M[1] /= NUM;
+            PSNR_HVS_M /= NUM;
 
-            if(PSNR_HVS_M[1] == 0) PSNR_HVS_M[1] = 100000;
-            else PSNR_HVS_M[1] = 10*log10f(255*255/PSNR_HVS_M[1]);
-            if(PSNR_HVS_M[0] == 0) PSNR_HVS_M[0] = 100000;
-            else PSNR_HVS_M[0] = 10*log10f(255*255/PSNR_HVS_M[0]);
+            if(PSNR_HVS_M == 0) PSNR_HVS_M = 100000;
+            else PSNR_HVS_M = 10*log10f(255*255/PSNR_HVS_M);
         }
 
         delete[] blockP;
