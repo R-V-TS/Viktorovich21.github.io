@@ -24,6 +24,13 @@ extern "C"{
             }
     }
 
+    void getImageBlockUInt2UInt(uint8_t* image, int i_, int j_, int image_width, int window_size, uint8_t* block) {
+        for (int i = i_; i < window_size+i_; i++)
+            for (int j = j_; j < (window_size)+j_; j++) {
+                block[window_size * (i-i_) + (j - j_)] = image[(image_width * (i)) + (j)];
+            }
+    }
+
     void getImageBlockF(float* image, int i_, int j_, int image_width, int window_size, float* block) {
         for (int i = i_; i < window_size+i_; i++)
             for (int j = j_; j < (window_size)+j_; j++) {
