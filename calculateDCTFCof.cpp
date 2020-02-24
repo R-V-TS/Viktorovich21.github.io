@@ -39,8 +39,8 @@ extern "C"{
     }
 
     EMSCRIPTEN_KEEPALIVE
-    float* createImageBuffer(int length){
-        return (float*)malloc(length*sizeof(float));
+    uint8_t* createImageBuffer(int length){
+        return (uint8_t*)malloc(length*sizeof(uint8_t));
     }
 
     EMSCRIPTEN_KEEPALIVE
