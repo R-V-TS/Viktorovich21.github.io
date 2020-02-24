@@ -177,17 +177,9 @@ extern "C"{
             kurtosis = (kurtosis/count)/pow(variance/count, 2);
             variance = variance/(count-1);
             coefficients[z] = (((1 - (-1)) * ((mean) - minimus[z])) / (maximus[z] - minimus[z])) + (-1);
-            coefficients[z] = (coefficients[z] > 1) ? 1 : coefficients[z];
-            coefficients[z] = (coefficients[z] < -1) ? -1 : coefficients[z];
             coefficients[z+1] = (((1 - (-1)) * ((variance) - minimus[z+1])) / (maximus[z+1] - minimus[z+1])) + (-1);
-            coefficients[z+1] = (coefficients[z+1] > 1) ? 1 : coefficients[z+1];
-            coefficients[z+1] = (coefficients[z+1] < -1) ? -1 : coefficients[z+1];
             coefficients[z+2] = (((1 - (-1)) * ((skeweness) - minimus[z+2])) / (maximus[z+2] - minimus[z+2])) + (-1);
-            coefficients[z+2] = (coefficients[z+2] > 1) ? 1 : coefficients[z+2];
-            coefficients[z+2] = (coefficients[z+2] < -1) ? -1 : coefficients[z+2];
             coefficients[z+3] = (((1 - (-1)) * ((kurtosis) - minimus[z+3])) / (maximus[z+3] - minimus[z+3])) + (-1);
-            coefficients[z+3] = (coefficients[z+3] > 1) ? 1 : coefficients[z+3];
-            coefficients[z+3] = (coefficients[z+3] < -1) ? -1 : coefficients[z+3];
             z += 4;
         }
         free(EST);
