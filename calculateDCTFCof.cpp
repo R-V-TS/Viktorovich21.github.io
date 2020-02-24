@@ -38,6 +38,12 @@ extern "C"{
             }
     }
 
+    EMSCRIPTEN_KEEPALIVE
+    float* createImageBuffer(int length){
+        return (float*)malloc(length*sizeof(float));
+    }
+
+    EMSCRIPTEN_KEEPALIVE
     float* DCT_image(uint8_t* image_, int width_, int height_, int wind_size_)
     {
         float *DCT_creator_mtx;
