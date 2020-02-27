@@ -12,7 +12,7 @@ int im_width = 0, im_height = 0;
 extern "C" {
     EMSCRIPTEN_KEEPALIVE
     float getModuleVersion(){
-        return 3.5f;
+        return 3.6f;
     }
     
     EMSCRIPTEN_KEEPALIVE
@@ -31,6 +31,11 @@ extern "C" {
     uint8_t* Bbuffer_init(int width, int height){
         buffer_B = (uint8_t*)malloc(width*height*sizeof(uint8_t));
         return buffer_B;
+    }
+
+    EMSCRIPTEN_KEEPALIVE
+    uint8_t getPixel(int x){
+        return buffer_G[x];
     }
 
     /*EMSCRIPTEN_KEEPALIVE
