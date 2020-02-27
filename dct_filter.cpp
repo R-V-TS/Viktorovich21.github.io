@@ -319,6 +319,7 @@ extern "C" {
         return block;
     }
 
+    EMSCRIPTEN_KEEPALIVE
     void applyDCTToColor(uint8_t* Color, int window_size, int sigma){
         float* block = new float[window_size];
         float* DCT_arr;
